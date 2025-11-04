@@ -80,6 +80,13 @@ void processCDRFile(const char *filename);
  */
 void writeCBFile(const char *outputFile);
 
+/**
+ * @brief Main processing function for customer billing
+ * @param filename Path to the input CDR file
+ * @param output_filename Path to the output file
+ */
+void CustomerBillingFile(const char *filename, const char *output_filename);
+
 /* ============================================================
    External Variables
    ============================================================ */
