@@ -87,6 +87,19 @@ void writeCBFile(const char *outputFile);
  */
 void CustomerBillingFile(const char *filename, const char *output_filename);
 
+/**
+ * @brief Search for a specific customer by MSISDN in the output file
+ * @param filename Path to the output file (CB.txt)
+ * @param msisdn The MSISDN to search for
+ */
+void search_msisdn(const char *filename, long msisdn);
+
+/**
+ * @brief Display entire contents of the customer billing output file
+ * @param filename Path to the output file (CB.txt)
+ */
+void display_customer_billing_file(const char *filename);
+
 /* ============================================================
    External Variables
    ============================================================ */

@@ -25,6 +25,11 @@ void displaySearchMenu(void) {
 }
 
 void handleCustomerBillingMenu(void) {
+    char cb_path[MAX_FILE_PATH];
+    char currentPath[MAX_PATH_LENGTH];
+    GetCurrentDirectory(MAX_PATH_LENGTH, currentPath);
+    snprintf(cb_path, MAX_FILE_PATH, "%s\\Output\\CB.txt", currentPath);
+
     printf("\nCustomer Billing Options:\n");
     printf("1. Search for MSISDN to get the required result on the user screen\n");
     printf("2. Get the all the content of the processed data for Customer Billing in the file called CB.txt\n");
@@ -33,10 +38,30 @@ void handleCustomerBillingMenu(void) {
     
     int custChoice;
     scanf("%d", &custChoice);
-    if (custChoice == 1) {
-        printf("\nFeature coming soon: MSISDN search\n");
-    } else if (custChoice == 2) {
-        printf("\nFeature coming soon: Display CB.txt contents\n");
+    
+    switch (custChoice) {
+        case 1: {
+            clearInputBuffer();
+            long msisdn;
+            printf("\nEnter MSISDN (phone number) to search: ");
+            if (scanf("%ld", &msisdn) == 1) {
+                search_msisdn(cb_path, msisdn);
+            } else {
+                printf("Invalid MSISDN format. Please enter a valid number.\n");
+                clearInputBuffer();
+            }
+            break;
+        }
+        case 2:
+            printf("\nDisplaying contents of CB.txt:\n\n");
+            display_customer_billing_file(cb_path);
+            break;
+        case 3:
+            printf("\nReturning to search menu...\n");
+            break;
+        default:
+            printf("\nInvalid choice!\n");
+            clearInputBuffer();
     }
 }
 
