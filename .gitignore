@@ -1,3 +1,6 @@
 Data/
 Output/CB.txt
 Output/ISOB.txt
+Makefile
+main.exe
+Data/Users.txt

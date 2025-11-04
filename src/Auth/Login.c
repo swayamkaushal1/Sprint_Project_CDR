@@ -1,4 +1,4 @@
-#include "../../Header/authHeader.h"
+#include "../../Header/mainHeader.h"
 
 static void hashPassword(const char *password, char *hashed) {
     unsigned int sum = 0;
@@ -13,7 +13,12 @@ int loginUser() {
     printf("Enter Password: ");
     scanf("%s", password);
     hashPassword(password, hashed);
-    FILE *fp = fopen("../../Data/Users.txt", "r");
+    char currentPath[1024];
+    GetCurrentDirectory(1024, currentPath);
+    char filePath[1224];
+    sprintf(filePath, "%s\\Data\\Users.txt", currentPath);
+    
+    FILE *fp = fopen(filePath, "r");
     if (!fp) {
         printf("No users found. Please signup first.\n");
         return 0;

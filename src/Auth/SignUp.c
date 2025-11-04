@@ -1,4 +1,4 @@
-#include "../../Header/authHeader.h"
+#include "../../Header/mainHeader.h"
 
 //Simple hash function
 static void hashPassword(const char *password, char *hashed) {
@@ -38,7 +38,12 @@ int validatePassword(const char *password) {
 
 // Check if user already exists
 int userExists(const char *email) {
-    FILE *fp = fopen("../../Data/Users.txt", "r");
+    char currentPath[1024];
+    GetCurrentDirectory(1024, currentPath);
+    char filePath[1224];
+    sprintf(filePath, "%s\\Data\\Users.txt", currentPath);
+    
+    FILE *fp = fopen(filePath, "r");
     if (fp == NULL) return 0; // file not exist yet, so user does not exist
 
     char line[256];
@@ -79,7 +84,7 @@ int signupUser() {
 
         // Check if user already exists
         if (userExists(email)) {
-            printf("❌ User already exists! Redirecting to login...\n");
+            printf("❌ User already exists!\n");
             return SIGNUP_USER_EXISTS;
         }
 
@@ -105,10 +110,19 @@ int signupUser() {
     // Hash the password
     hashPassword(password, hashed);
 
+    char currentPath[1024];
+    GetCurrentDirectory(1024, currentPath);
+    char dataPath[1124];
+    sprintf(dataPath, "%s\\Data", currentPath);
+    CreateDirectory(dataPath, NULL);
+
+    char filePath[1224];
+    sprintf(filePath, "%s\\Users.txt", dataPath);
+    
     // Save to Users.txt
-    fp = fopen("../../Data/Users.txt", "a");
+    fp = fopen(filePath, "a");
     if (!fp) {
-        printf("Error opening Users.txt!\n");
+        printf("Error: Could not create or open %s!\n", filePath);
         return SIGNUP_FAILED;
     }
     fprintf(fp, "%s|%s\n", email, hashed);

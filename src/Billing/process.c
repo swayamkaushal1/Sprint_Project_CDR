@@ -1,8 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <windows.h>
-#include "../../Header/custHeader.h"
-#include "../../Header/interopHeader.h"
+#include "../../Header/multithreadingHeader.h"
 
 /* ============================================================
    Thread Structure and Functions
@@ -26,19 +22,14 @@ DWORD WINAPI interoperatorBillingThread(LPVOID args) {
 }
 
 /* ============================================================
-   Main Function - Parallel Processing
+   Main Processing Function
    ============================================================ */
 
-int main() {
+int processCDRWithThreads(const char* input_file, const char* cb_output, const char* isob_output) {
     HANDLE hCustThread, hInteropThread;
     ThreadArgs custArgs, interopArgs;
     
-    const char* input_file = "../../Data/data.cdr";
-    const char* cb_output = "../../Output/CB.txt";
-    const char* isob_output = "../../Output/ISOB.txt";
-    
-    printf("Processing CDR data...\n");
-    
+    // Setup thread arguments
     custArgs.input_file = input_file;
     custArgs.output_file = cb_output;
     interopArgs.input_file = input_file;
@@ -47,14 +38,12 @@ int main() {
     // Create customer billing thread
     hCustThread = CreateThread(NULL, 0, customerBillingThread, &custArgs, 0, NULL);
     if (hCustThread == NULL) {
-        fprintf(stderr, "Error creating customer billing thread\n");
         return 1;
     }
     
     // Create interoperator billing thread
     hInteropThread = CreateThread(NULL, 0, interoperatorBillingThread, &interopArgs, 0, NULL);
     if (hInteropThread == NULL) {
-        fprintf(stderr, "Error creating interoperator billing thread\n");
         CloseHandle(hCustThread);
         return 1;
     }
@@ -65,6 +54,5 @@ int main() {
     CloseHandle(hCustThread);
     CloseHandle(hInteropThread);
     
-    printf("CDR data processing completed\n");
     return 0;
 }
