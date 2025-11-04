@@ -1,33 +1,37 @@
 # Call Detail Record (CDR) Processing System
 
-A system for processing and analyzing Call Detail Records with user authentication, customer billing, and interoperator settlement billing capabilities.
+A comprehensive system for processing and analyzing Call Detail Records (CDR) with secure user authentication, detailed customer billing, and interoperator settlement billing capabilities. The system efficiently processes telecom records and generates detailed billing reports for both individual customers and operator settlements using multi-threaded processing.
 
 ## Project Structure
 
 ```
 CallDetailRecord/
 ├── Header/                     # Header files containing declarations and definitions
-│   ├── mainHeader.h           # Core definitions, types, and includes
-│   ├── menuHeader.h           # Menu-related function declarations
-│   ├── utilityHeader.h        # Utility function declarations
 │   ├── custHeader.h           # Customer billing related definitions
 │   ├── interopHeader.h        # Interoperator billing related definitions
-│   └── multithreadingHeader.h # Multithreading functionality declarations
+│   ├── mainHeader.h           # Core definitions, types, and includes
+│   ├── menuHeader.h           # Menu-related function declarations
+│   ├── multithreadingHeader.h # Multithreading functionality declarations
+│   └── utilityHeader.h        # Utility function declarations
 │
 ├── src/                       # Source code files
-│   ├── main.c                # Main program entry point and authentication flow
+│   ├── main.c                # Main program entry point
 │   │
 │   ├── Auth/                 # Authentication related implementations
 │   │   ├── Login.c          # User login functionality
 │   │   └── SignUp.c         # User signup functionality
 │   │
 │   ├── Billing/             # Billing related implementations
-│   │   ├── process.c        # Main billing process with multithreading
-│   │   ├── CustomerBilling.c    # Customer billing calculations
-│   │   └── InteroperatorBilling.c # Interoperator settlement billing
+│   │   ├── CustomerBilling.c     # Customer billing search and display
+│   │   └── InteroperatorBilling.c # Interoperator settlement search and display
 │   │
 │   ├── Menu/                # Menu handling implementations
 │   │   └── menuImpl.c       # Menu display and handling functions
+│   │
+│   ├── Process/            # Data processing implementations
+│   │   ├── process.c       # Main processing with multithreading
+│   │   ├── CustomerBillingProcess.c    # Customer billing processing
+│   │   └── InteroperatorBillingProcess.c # Interoperator billing processing
 │   │
 │   └── Utility/             # Utility functions
 │       └── utility.c        # Common utility functions (file paths, etc.)
@@ -36,9 +40,11 @@ CallDetailRecord/
 │   ├── data.cdr             # Input CDR data file
 │   └── Users.txt            # User authentication data
 │
-└── Output/                  # Generated output files
-    ├── CB.txt              # Customer Billing results
-    └── ISOB.txt            # Interoperator Settlement Billing results
+├── Output/                  # Generated output files
+│   ├── CB.txt              # Customer Billing results
+│   └── ISOB.txt           # Interoperator Settlement Billing results
+│
+└── logs/                   # System logs directory
 ```
 
 ## Component Descriptions
@@ -89,9 +95,71 @@ CallDetailRecord/
   - `CB.txt`: Customer Billing report
   - `ISOB.txt`: Interoperator Settlement Billing report
 
-## Compilation
+## Features
 
-To compile the project, use:
+### 1. Authentication System
+- Secure signup and login functionality
+- Password encryption
+- Session management
+- Input validation
+
+### 2. CDR Processing
+- Multi-threaded processing of CDR records
+- Supports multiple record types:
+  - Voice calls (MOC/MTC)
+  - SMS messages (SMS-MO/SMS-MT)
+  - GPRS (data) usage
+- Efficient data structures (Hash tables) for O(1) lookup
+- Concurrent processing for improved performance
+
+### 3. Customer Billing (CB.txt)
+- Individual customer usage tracking:
+  - Voice calls (incoming/outgoing)
+  - SMS messages (incoming/outgoing)
+  - Data usage (upload/download)
+- Service categorization:
+  - Within same operator
+  - Cross-operator services
+- Search functionality by MSISDN
+- Detailed billing reports
+
+### 4. Interoperator Settlement (ISOB.txt)
+- Operator-level settlement processing
+- Traffic analysis:
+  - Voice call durations
+  - SMS message counts
+  - Data service usage
+- Search by operator name or MMC/MNC code
+- Comprehensive settlement reports
+
+## Building and Running
+
+### Prerequisites
+- GCC Compiler
+- Windows OS (for current implementation)
+- Minimum 512MB RAM
+- 1GB free disk space
+
+### Compilation
 ```bash
-gcc -I./Header src/main.c src/Menu/menuImpl.c src/Utility/utility.c src/Billing/process.c src/Billing/CustomerBilling.c src/Billing/InteroperatorBilling.c src/Auth/Login.c src/Auth/SignUp.c -o cdr_system.exe
+gcc -I./Header src/main.c src/Menu/menuImpl.c src/Utility/utility.c src/Process/process.c src/Process/CustomerBillingProcess.c src/Process/InteroperatorBillingProcess.c src/Auth/Login.c src/Auth/SignUp.c src/Billing/InteroperatorBilling.c src/Billing/CustomerBilling.c -o main.exe
 ```
+
+### Running the Application
+```bash
+./main.exe
+```
+
+### Usage Flow
+1. Launch the application
+2. Sign up (new users) or Log in (existing users)
+3. Select from main menu:
+   - Process CDR data
+   - Search/View billing information
+4. Choose billing type:
+   - Customer Billing
+     - Search by MSISDN
+     - View complete report
+   - Interoperator Settlement
+     - Search by operator
+     - View full settlement
