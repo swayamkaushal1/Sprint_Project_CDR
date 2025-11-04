@@ -185,7 +185,6 @@ void InteroperatorBillingFile(const char *filename, const char *output_filename)
             fprintf(fout, "\tOutgoing SMS messages: %ld\n", s->sms_mo_count);
             fprintf(fout, "\tMB Download: %ld | MB Uploaded: %ld\n", s->total_download, s->total_upload);
             fprintf(fout, "----------------------------------------\n");
-            printf("\n"); // Clean Output:
             node = node->next;
         }
     }
@@ -207,7 +206,6 @@ void InteroperatorBillingFile(const char *filename, const char *output_filename)
         buckets[i] = NULL;
     }
 
-    printf("file created successfully\n");
 }
 
 
