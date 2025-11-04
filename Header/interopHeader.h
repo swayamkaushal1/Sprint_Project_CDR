@@ -53,6 +53,10 @@ typedef struct OpNode
  */
 void InteroperatorBillingFile(const char *filename, const char *output_filename);
 
+void search_operator(const char *filename, const char *operator);
+
+void display_file(const char *filename);
+
 /**
  * @brief Processes a single line from the CDR file
  * @param line The line to process

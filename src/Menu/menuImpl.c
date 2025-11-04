@@ -41,18 +41,44 @@ void handleCustomerBillingMenu(void) {
 }
 
 void handleInteroperatorBillingMenu(void) {
+    char isob_path[MAX_FILE_PATH];
+    char currentPath[MAX_PATH_LENGTH];
+    GetCurrentDirectory(MAX_PATH_LENGTH, currentPath);
+    snprintf(isob_path, MAX_FILE_PATH, "%s\\Output\\ISOB.txt", currentPath);
+
     printf("\nInteroperator Settlement Billing Options:\n");
     printf("1. Search for Brand Name/Operator ID identified by Operator MMC/MNC to get the required result on the user screen\n");
-    printf("2. Get the all the content of the processed data for Interoperator Settlement Billing in the file called IOSB.txt\n");
+    printf("2. Get the all the content of the processed data for Interoperator Settlement Billing in the file called ISOB.txt\n");
     printf("3. Exit\n");
     printf("Choice: ");
     
     int interopChoice;
     scanf("%d", &interopChoice);
-    if (interopChoice == 1) {
-        printf("\nFeature coming soon: Operator search\n");
-    } else if (interopChoice == 2) {
-        printf("\nFeature coming soon: Display IOSB.txt contents\n");
+    
+    switch (interopChoice) {
+        case 1: {
+            clearInputBuffer();
+            char operator_input[50];
+            printf("\nEnter Brand Name or Operator MMC/MNC to search: ");
+            if (fgets(operator_input, sizeof(operator_input), stdin) != NULL) {
+                // Remove trailing newline
+                operator_input[strcspn(operator_input, "\n")] = 0;
+                search_operator(isob_path, operator_input);
+            } else {
+                printf("Error reading input.\n");
+            }
+            break;
+        }
+        case 2:
+            printf("\nDisplaying contents of ISOB.txt:\n\n");
+            display_file(isob_path);
+            break;
+        case 3:
+            printf("\nReturning to search menu...\n");
+            break;
+        default:
+            printf("\nInvalid choice!\n");
+            clearInputBuffer();
     }
 }
 
