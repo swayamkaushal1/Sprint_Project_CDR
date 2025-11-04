@@ -8,6 +8,13 @@
 #include "custHeader.h"
 #include "interopHeader.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <windows.h>
+#include "multithreadingHeader.h"
+#include "custHeader.h"
+#include "interopHeader.h"
+
 /* ============================================================
    Constants & Macros
    ============================================================ */
@@ -48,6 +55,24 @@ typedef enum {
     CDR_LOGOUT = 3
 } CDRMenuChoice;
 
+typedef enum {
+    BILL_CUSTOMER = 1,
+    BILL_INTEROP = 2,
+    BILL_EXIT = 3
+} BillingTypeChoice;
+
+typedef enum {
+    CUST_SEARCH_MSISDN = 1,
+    CUST_VIEW_ALL = 2,
+    CUST_EXIT = 3
+} CustomerBillChoice;
+
+typedef enum {
+    INTEROP_SEARCH_OPERATOR = 1,
+    INTEROP_VIEW_ALL = 2,
+    INTEROP_EXIT = 3
+} InteropBillChoice;
+
 /* ============================================================
    Function Declarations
    ============================================================ */
@@ -86,6 +111,50 @@ void clearInputBuffer(void);
  * @param menu_type The current menu type
  */
 void handleInvalidInput(MenuType menu_type);
+
+/**
+ * @brief Handle Customer Billing search and display operations
+ */
+void handleCustomerBillingSearch(void);
+
+/**
+ * @brief Handle Interoperator Billing search and display operations
+ */
+void handleInteroperatorBillingSearch(void);
+
+/**
+ * @brief Display billing type selection menu
+ */
+void displayBillingTypeMenu(void);
+
+/**
+ * @brief Display customer billing search menu
+ */
+void displayCustomerBillMenu(void);
+
+/**
+ * @brief Display interoperator billing search menu
+ */
+void displayInteropBillMenu(void);
+
+/**
+ * @brief Search for specific MSISDN in customer billing data
+ * @param msisdn The MSISDN to search for
+ */
+void searchCustomerByMSISDN(long msisdn);
+
+/**
+ * @brief Search for operator in interoperator billing data
+ * @param operator_id The operator ID or name to search for
+ */
+void searchByOperator(const char* operator_id);
+
+/**
+ * @brief Display all contents of a file
+ * @param filepath Path to the file to display
+ * @return int Returns 0 on success, 1 if file not found
+ */
+int displayFileContents(const char* filepath);
 
 /* External function declarations */
 extern int loginUser(void);
