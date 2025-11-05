@@ -1,4 +1,8 @@
 #include "../../Header/custHeader.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <errno.h>
 
 // Define the global variables declared in header
 Customer *hashTable[HASH_SIZE];

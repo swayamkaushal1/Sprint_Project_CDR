@@ -113,11 +113,25 @@ int signupUser() {
     char currentPath[1024];
     GetCurrentDirectory(1024, currentPath);
     char dataPath[1124];
+#ifdef _WIN32
     sprintf(dataPath, "%s\\Data", currentPath);
-    CreateDirectory(dataPath, NULL);
+#else
+    sprintf(dataPath, "%s/Data", currentPath);
+#endif
+
+    // Create Data directory if it doesn't exist
+#ifdef _WIN32
+    _mkdir(dataPath);
+#else
+    mkdir(dataPath, 0777);
+#endif
 
     char filePath[1224];
+#ifdef _WIN32
     sprintf(filePath, "%s\\Users.txt", dataPath);
+#else
+    sprintf(filePath, "%s/Users.txt", dataPath);
+#endif
     
     // Save to Users.txt
     fp = fopen(filePath, "a");

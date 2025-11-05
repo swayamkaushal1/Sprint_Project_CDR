@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "utilityheader.h": "c"
+        "utilityheader.h": "c",
+        "windows.h": "c"
     }
 }

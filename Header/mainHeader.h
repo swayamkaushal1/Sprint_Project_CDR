@@ -3,14 +3,22 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <windows.h>
-#include "multithreadingHeader.h"
-#include "custHeader.h"
-#include "interopHeader.h"
+#include <string.h>
+#include <errno.h>
+#include <sys/stat.h>
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <windows.h>
+#ifdef _WIN32
+    #include <windows.h>
+    #define PATH_SEPARATOR "\\"
+    #define mkdir(path, mode) _mkdir(path)
+#else
+    #include <unistd.h>
+    #include <pthread.h>
+    #include <sys/types.h>
+    #define PATH_SEPARATOR "/"
+    #define GetCurrentDirectory(size, buf) getcwd(buf, size)
+#endif
+
 #include "multithreadingHeader.h"
 #include "custHeader.h"
 #include "interopHeader.h"
