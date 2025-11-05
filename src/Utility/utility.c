@@ -86,9 +86,9 @@ const char* getISOBFilePath(void) {
 
     // Create full path for file
 #ifdef _WIN32
-    snprintf(isob_path, MAX_FILE_PATH, "%s\\IOSB.txt", outputDir);
+    snprintf(isob_path, MAX_FILE_PATH, "%s\\ISOB.txt", outputDir);
 #else
-    snprintf(isob_path, MAX_FILE_PATH, "%s/IOSB.txt", outputDir);
+    snprintf(isob_path, MAX_FILE_PATH, "%s/ISOB.txt", outputDir);
 #endif
     return isob_path;
 }
@@ -109,13 +109,13 @@ void getFilePaths(char *input_file, char *cb_output, char *isob_output) {
     snprintf(outputDir, MAX_PATH_LENGTH, "%s\\Output", currentPath);
     snprintf(input_file, MAX_FILE_PATH, "%s\\data.cdr", dataDir);
     snprintf(cb_output, MAX_FILE_PATH, "%s\\CB.txt", outputDir);
-    snprintf(isob_output, MAX_FILE_PATH, "%s\\IOSB.txt", outputDir);
+    snprintf(isob_output, MAX_FILE_PATH, "%s\\ISOB.txt", outputDir);
 #else
     snprintf(dataDir, MAX_PATH_LENGTH, "%s/Data", currentPath);
     snprintf(outputDir, MAX_PATH_LENGTH, "%s/Output", currentPath);
     snprintf(input_file, MAX_FILE_PATH, "%s/data.cdr", dataDir);
     snprintf(cb_output, MAX_FILE_PATH, "%s/CB.txt", outputDir);
-    snprintf(isob_output, MAX_FILE_PATH, "%s/IOSB.txt", outputDir);
+    snprintf(isob_output, MAX_FILE_PATH, "%s/ISOB.txt", outputDir);
 #endif
 
     // Create directories if they don't exist and handle errors

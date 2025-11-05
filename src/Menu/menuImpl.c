@@ -72,15 +72,21 @@ void handleCustomerBillingMenu(void) {
 }
 
 void handleInteroperatorBillingMenu(void) {
-    char isob_path[MAX_FILE_PATH];
-    char currentPath[MAX_PATH_LENGTH];
-    get_current_dir(currentPath, MAX_PATH_LENGTH);
+    // Get the ISOB file path using our utility function
+    const char* isob_path = getISOBFilePath();
+    if (!isob_path) {
+        printf("Error getting ISOB file path\n");
+        return;
+    }
 
-#ifdef _WIN32
-    snprintf(isob_path, MAX_FILE_PATH, "%s\\Output\\ISOB.txt", currentPath);
-#else
-    snprintf(isob_path, MAX_FILE_PATH, "%s/Output/ISOB.txt", currentPath);
-#endif
+    // Check if file exists
+    FILE* test_file = fopen(isob_path, "r");
+    if (!test_file) {
+        printf("\nInteroperator Settlement Billing file not found.\n");
+        printf("Please process the CDR data first using option 1 from the main menu.\n");
+        return;
+    }
+    fclose(test_file);
 
     printf("\nInteroperator Settlement Billing Options:\n");
     printf("1. Search for Brand Name/Operator ID identified by Operator MMC/MNC to get the required result on the user screen\n");

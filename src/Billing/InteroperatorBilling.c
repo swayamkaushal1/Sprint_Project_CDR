@@ -19,7 +19,9 @@ void search_operator(const char *filename, const char *operator_input) {
     int found = 0;
 
     if (!file) {
-        perror("Error opening file");
+        printf("Error opening file: %s\n", strerror(errno));
+        printf("Filename: %s\n", filename);
+        printf("Note: Please process the CDR data first using option 1 from the main menu.\n");
         return;
     }
 
@@ -56,20 +58,19 @@ void search_operator(const char *filename, const char *operator_input) {
 }
 
 void display_file(const char *filename) {
-    char ch;
     FILE *file = fopen(filename, "r");
-    char line[MAX_LINE];
+    char buffer[4096];
 
     if (!file) {
-        perror("Error opening file");
+        printf("Error opening file: %s\n", strerror(errno));
+        printf("Filename: %s\n", filename);
+        printf("Note: Please process the CDR data first using option 1 from the main menu.\n");
         return;
     }
 
-    while(!feof(file)){
-        ch = fgetc(file);
-        if(ch != EOF){
-            putchar(ch);
-        }
+    size_t bytes_read;
+    while ((bytes_read = fread(buffer, 1, sizeof(buffer), file)) > 0) {
+        fwrite(buffer, 1, bytes_read, stdout);
     }
 
     fclose(file);
