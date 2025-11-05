@@ -3,6 +3,13 @@
 
 #include "../Header/mainHeader.h"
 
+/**
+ * @brief Get the current working directory in a platform-independent way
+ * @param buffer The buffer to store the path in
+ * @param size The size of the buffer
+ */
+void get_current_dir(char* buffer, size_t size);
+
 /* File Path Functions */
 void getFilePaths(char *input_file, char *cb_output, char *isob_output);
 

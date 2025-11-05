@@ -1,4 +1,5 @@
 #include "../../Header/menuHeader.h"
+#include "../../Header/utilityHeader.h"
 
 void displayAuthMenu(void) {
     printf("\n=== Authentication Menu ===\n");
@@ -27,8 +28,13 @@ void displaySearchMenu(void) {
 void handleCustomerBillingMenu(void) {
     char cb_path[MAX_FILE_PATH];
     char currentPath[MAX_PATH_LENGTH];
-    GetCurrentDirectory(MAX_PATH_LENGTH, currentPath);
+    get_current_dir(currentPath, MAX_PATH_LENGTH);
+
+#ifdef _WIN32
     snprintf(cb_path, MAX_FILE_PATH, "%s\\Output\\CB.txt", currentPath);
+#else
+    snprintf(cb_path, MAX_FILE_PATH, "%s/Output/CB.txt", currentPath);
+#endif
 
     printf("\nCustomer Billing Options:\n");
     printf("1. Search for MSISDN to get the required result on the user screen\n");
@@ -68,8 +74,13 @@ void handleCustomerBillingMenu(void) {
 void handleInteroperatorBillingMenu(void) {
     char isob_path[MAX_FILE_PATH];
     char currentPath[MAX_PATH_LENGTH];
-    GetCurrentDirectory(MAX_PATH_LENGTH, currentPath);
+    get_current_dir(currentPath, MAX_PATH_LENGTH);
+
+#ifdef _WIN32
     snprintf(isob_path, MAX_FILE_PATH, "%s\\Output\\ISOB.txt", currentPath);
+#else
+    snprintf(isob_path, MAX_FILE_PATH, "%s/Output/ISOB.txt", currentPath);
+#endif
 
     printf("\nInteroperator Settlement Billing Options:\n");
     printf("1. Search for Brand Name/Operator ID identified by Operator MMC/MNC to get the required result on the user screen\n");
